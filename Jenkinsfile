@@ -1,8 +1,8 @@
 def github_id = 'CHANGE_ME'
 
-def image_name = "${github_id}/purplebooth-transaction-service"
+def image_name = "sepractices/${github_id}-transaction-service"
 
-def cluster_name = "dev-ak-k8s-cluster"
+def cluster_name = "prod-ak-k8s-cluster"
 
 def git_repository = "https://github.com/${github_id}/transaction-service.git"
 
