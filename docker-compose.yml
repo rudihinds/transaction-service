@@ -1,0 +1,42 @@
+version: "3"
+services:
+    message-bus:
+      image: 'rabbitmq:3-management'
+      hostname: rabbitmq-host
+      ports:
+        - 5672:5672
+        - 15672:15672
+      networks:
+        - default
+    sink:
+      build: .
+      hostname: transactions-service
+      restart: always
+      volumes:
+        - .:/app
+      depends_on:
+        - message-bus
+      environment:
+        RABBITMQ_PORT: 5672
+        RABBITMQ_HOST: message-bus
+        ACCOUNT_SERVICE_URL: http://google.com
+        DB_HOST: transaction-service-db
+        DB_PORT: 5432
+        DB_USERNAME: guest
+        DB_PASSWORD: guest
+      networks:
+        - default
+    transaction-service-db:
+      image: postgres:latest
+      ports:
+        - 5432:5432
+      environment:
+        POSTGRES_PASSWORD: guest
+        POSTGRES_USER: guest
+        POSTGRES_DB: transaction-service
+      networks:
+        - default
+
+
+networks:
+  default:

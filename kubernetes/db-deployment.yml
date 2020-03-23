@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transaction-service-db
+  labels:
+    app: transaction-service
+spec:
+  selector:
+    matchLabels:
+      app: transaction-service
+      tier: postgresql
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: transaction-service
+        tier: postgresql
+    spec:
+      containers:
+      - name: postgresql
+        image: postgres:latest
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: transaction-service
+        - name: POSTGRES_PASSWORD
+          value: guest
+        - name: POSTGRES_USER
+          value: guest

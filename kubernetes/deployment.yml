@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transaction-service
+  labels:
+    app: transaction-service
+spec:
+  selector:
+    matchLabels:
+      app: transaction-service
+      tier: api
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: transaction-service
+        tier: api
+    spec:
+      containers:
+      - image: aklearning/eng-lab-transaction-service
+        name: transaction-service
+        imagePullPolicy: Always
+        env:
+        - name: ACCOUNT_SERVICE_URL
+          value: http://account-service:5000
+        - name: DB_HOST
+          value: transaction-service-db
+        - name: DB_PASSWORD
+          value: guest
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_USERNAME
+          value: guest
+        - name: PORT
+          value: "5000"
+        - name: RABBITMQ_HOST
+          value: message-bus
+        - name: RABBITMQ_PORT
+          value: "5672"
