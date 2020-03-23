@@ -1,6 +1,10 @@
 def github_id = 'CHANGE_ME'
 
+// DO NOT CHANGE THE VARIBLES BELOW THIS LINE 
+
 def image_name = "sepractices/${github_id}-transaction-service"
+
+def namespace = github_id.toLowerCase()
 
 def cluster_name = "prod-ak-k8s-cluster"
 
@@ -95,8 +99,8 @@ podTemplate(name: 'transaction-service-build', label: label, yaml: build_pod_tem
               --exec-arg="${cluster_name}"
           """
           sh "yq w -i kubernetes/deployment.yml 'spec.template.spec.containers[0].image' ${image_name}"
-          sh "kubectl create namespace ${github_id} || true"
-          sh "kubectl apply -n ${github_id} -f kubernetes/"
+          sh "kubectl create namespace ${namespace} || true"
+          sh "kubectl apply -n ${namespace} -f kubernetes/"
         }
       }
     }
