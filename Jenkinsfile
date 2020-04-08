@@ -92,7 +92,8 @@ podTemplate(name: 'transaction-service-build', label: label, yaml: build_pod_tem
               --server=$KUBERNETES_SERVER \
               --certificate-authority=$KUBERNETES_CA
           '''
-          sh """kubectl config \
+          sh """
+            kubectl config \
               set-credentials aws \
               --exec-arg=token \
               --exec-arg=-i \
